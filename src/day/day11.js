@@ -2,12 +2,12 @@ import React from "react";
 import "../App.css";
 
 /**
- * Lifecycle
+ * Check fn
  *
- * Each component has several “lifecycle methods” that you can use
- * to run code at particular times in the process.
+ * Used later to check game state.
+ * So far we have no condition to check.
  *
- * Add a `componentDidMount` method to App.
+ * Call `updateGame` method inside checkGame
  */
 
 const Bird = ({ top }) => {
@@ -25,7 +25,18 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.t = setInterval(() => this.checkGame(), 16.66 );
+  }
 
+  // Check game state and decide
+  checkGame = () => {
+    return this.updateGame();
+  }
+
+  // We update state only here.
+  // Perform all our calculation first then pass the new data to setState
+  updateGame = () => {
+    return false;
   }
 
   render() {

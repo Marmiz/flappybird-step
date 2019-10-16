@@ -2,12 +2,7 @@ import React from "react";
 import "../App.css";
 
 /**
- * Lifecycle
- *
- * Each component has several “lifecycle methods” that you can use
- * to run code at particular times in the process.
- *
- * Add a `componentDidMount` method to App.
+ * Update + Fall fn
  */
 
 const Bird = ({ top }) => {
@@ -25,7 +20,24 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.t = setInterval(() => this.checkGame(), 16.66 );
+  }
 
+  // Check game state and decide
+  checkGame = () => {
+    return this.updateGame();
+  }
+
+  // We update state only here.
+  // Perform all our calculation first then pass the new data to setState
+  updateGame = () => {
+    const newFallPosition = this.fall();
+    return false;
+  }
+
+  // Calculate the falling down acceleration
+  fall = () => {
+    return false;
   }
 
   render() {
