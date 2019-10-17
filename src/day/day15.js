@@ -1,12 +1,18 @@
 import React from "react";
 import "../App.css";
+import CONF from "../conf.js";
 
 /**
- * Update State
+ * Set bottom limit
+ * 
+ * As you can see now the bird falls down indefinitely.
+ * Add a maximum top position after which the bird will stop falling, the bottom edge
  *
- * Now that we compute a new vale we want to update the state of the App
- * React will take care of the re-render
- *
+ * Check conf.js for the list of config values
+ * 
+ * in fall()
+ * 1 - import maxBottom from conf
+ * 2 - return newPos if <= maxBottom otherwise maxBottom
  */
 
 const Bird = ({ top }) => {
@@ -48,11 +54,12 @@ class App extends React.Component {
    */
   fall = () => {
     const { top } = this.state;
+    const { maxBottom } = CONF;
     // update
     const newPos = top + 10; // random number
 
     //return new pos
-    return { newPos: newPos };
+    return { newPos: newPos <= maxBottom ? newPos : maxBottom };
   }
 
   render() {
