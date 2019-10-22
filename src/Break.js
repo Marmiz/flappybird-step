@@ -3,7 +3,7 @@ import React, { Component, Suspense, lazy } from 'react';
 
 class Break extends Component {
     state = {
-        nav: 0,
+        nav: 16,
     }
 
     nextPage = () => {

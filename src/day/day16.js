@@ -4,7 +4,9 @@ import CONF from "../conf.js";
 
 /**
  * Event Handler
- * 
+ *
+ * on space call jump()
+ *
  */
 
 const Bird = ({ top }) => {
@@ -24,6 +26,12 @@ class App extends React.Component {
   componentDidMount() {
     this.t = setInterval(() => this.checkGame(), 16.66 );
     window.addEventListener('keydown', this.handlePress)
+  }
+
+  /** DEV ONLY */
+  componentWillUnmount() {
+    clearInterval(this.t);
+    window.removeEventListener('keydown', this.handlePress)
   }
 
   // Check game state and decide

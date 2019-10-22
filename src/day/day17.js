@@ -1,12 +1,14 @@
 import React from "react";
 import "../App.css";
+import CONF from "../conf.js";
 
 /**
- * Update State
+ * Linear Jump
  *
- * Now that we compute a new vale we want to update the state of the App
- * React will take care of the re-render
+ * Take current top position,
+ * adds 100
  *
+ * update state with new top position
  */
 
 const Bird = ({ top }) => {
@@ -25,11 +27,13 @@ class App extends React.Component {
 
   componentDidMount() {
     this.t = setInterval(() => this.checkGame(), 16.66 );
+    window.addEventListener('keydown', this.handlePress)
   }
 
   /** DEV ONLY */
   componentWillUnmount() {
-    clearInterval(this.t)
+    clearInterval(this.t);
+    window.removeEventListener('keydown', this.handlePress)
   }
 
   // Check game state and decide
@@ -53,11 +57,35 @@ class App extends React.Component {
    */
   fall = () => {
     const { top } = this.state;
+    const { maxBottom } = CONF;
     // update
     const newPos = top + 10; // random number
 
     //return new pos
-    return { newPos: newPos };
+    return { newPos: newPos <= maxBottom ? newPos : maxBottom };
+  }
+
+  /**
+   * Compute Jumping
+   */
+  jump = () => {
+    const { top } = this.state;
+    // update
+    const newPos = top - 100; // random number
+
+    this.setState({ top: newPos });
+  }
+
+  /**
+   * event handler
+   */
+  handlePress = e => {
+    const kc = e.keyCode;
+
+    // space -> Jump
+    if(kc === 32) {
+      this.jump();
+    }
   }
 
   render() {

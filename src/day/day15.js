@@ -4,12 +4,12 @@ import CONF from "../conf.js";
 
 /**
  * Set bottom limit
- * 
+ *
  * As you can see now the bird falls down indefinitely.
  * Add a maximum top position after which the bird will stop falling, the bottom edge
  *
  * Check conf.js for the list of config values
- * 
+ *
  * in fall()
  * 1 - import maxBottom from conf
  * 2 - return newPos if <= maxBottom otherwise maxBottom
@@ -31,6 +31,11 @@ class App extends React.Component {
 
   componentDidMount() {
     this.t = setInterval(() => this.checkGame(), 16.66 );
+  }
+
+  /** DEV ONLY */
+  componentWillUnmount() {
+    clearInterval(this.t)
   }
 
   // Check game state and decide
