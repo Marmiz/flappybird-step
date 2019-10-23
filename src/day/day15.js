@@ -25,7 +25,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      top: 30
+      top: 30,
+      deltaTop: 0,
     };
   }
 
@@ -50,6 +51,7 @@ class App extends React.Component {
 
     this.setState({
       top: newFallPosition.newPos,
+      deltaTop: newFallPosition.newDeltaPos,
     });
   }
 
@@ -58,13 +60,14 @@ class App extends React.Component {
    * @returns {Object.<number>}
    */
   fall = () => {
-    const { top } = this.state;
-    const { maxBottom } = CONF;
+    const { top, deltaTop } = this.state;
+    const { velocity, acceleration, maxBottom } = CONF;
     // update
-    const newPos = top + 10; // random number
+    const newDeltaPos = deltaTop + (velocity * acceleration);
+    const newPos = top + newDeltaPos;
 
     //return new pos
-    return { newPos: newPos <= maxBottom ? newPos : maxBottom };
+    return { newPos: newPos <= maxBottom ? newPos : maxBottom, newDeltaPos };
   }
 
   render() {

@@ -1,8 +1,14 @@
 import React from "react";
 import "../App.css";
+import CONF from "../conf.js";
 
 /**
- * Linear Fall
+ * Fall
+ *
+ * Game physics: falling down is subject to acceleration
+ * se we have to value: top and deltaTop
+ *
+ * in state add `deltaTop` with an initial value of 0
  *
  * in fall()
  * 1 - read current `top` val from this.state
@@ -20,38 +26,46 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      top: 30
+      top: 30,
+      deltaTop: 0
     };
   }
 
   componentDidMount() {
-    this.t = setInterval(() => this.checkGame(), 16.66 );
+    this.t = setInterval(() => this.checkGame(), 16.66);
+  }
+
+  /** DEV ONLY */
+  componentWillUnmount() {
+    clearInterval(this.t);
   }
 
   // Check game state and decide
   checkGame = () => {
     return this.updateGame();
-  }
+  };
 
   // We update state only here.
   // Perform all our calculation first then pass the new data to setState
   updateGame = () => {
     const newFallPosition = this.fall();
     return false;
-  }
+  };
 
   /**
    * Compute falling down
    * @returns {Object.<number>}
    */
   fall = () => {
-    const { top } = this.state;
+    const { top, deltaTop } = this.state;
+    const { velocity, acceleration } = CONF;
     // update
-    const newPos = top + 10; // random number
+    const newDeltaPos = deltaTop + velocity * acceleration;
+    const newPos = top + newDeltaPos;
 
     //return new pos
-    return { newPos: newPos };
-  }
+    return { newPos, newDeltaPos };
+  };
 
   render() {
     const { top } = this.state;

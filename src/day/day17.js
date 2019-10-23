@@ -3,12 +3,15 @@ import "../App.css";
 import CONF from "../conf.js";
 
 /**
- * Linear Jump
+ * Jump
  *
- * Take current top position,
- * adds 100
+ * Jumping is a sudden burst of "negative gravity"
  *
  * update state with new top position
+ * in this.jump()
+ * 1 - newPositon is the sum of `top` and `jumpDistance`
+ * 2 - deltaPos gets resetted to be `jumpDistance`
+ * 3 - update states with new values
  */
 
 const Bird = ({ top }) => {
@@ -21,7 +24,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      top: 30
+      top: 30,
+      deltaTop: 0,
     };
   }
 
@@ -48,6 +52,7 @@ class App extends React.Component {
 
     this.setState({
       top: newFallPosition.newPos,
+      deltaTop: newFallPosition.newDeltaPos,
     });
   }
 
@@ -56,13 +61,14 @@ class App extends React.Component {
    * @returns {Object.<number>}
    */
   fall = () => {
-    const { top } = this.state;
-    const { maxBottom } = CONF;
+    const { top, deltaTop } = this.state;
+    const { velocity, acceleration, maxBottom } = CONF;
     // update
-    const newPos = top + 10; // random number
+    const newDeltaPos = deltaTop + (velocity * acceleration);
+    const newPos = top + newDeltaPos;
 
     //return new pos
-    return { newPos: newPos <= maxBottom ? newPos : maxBottom };
+    return { newPos: newPos <= maxBottom ? newPos : maxBottom, newDeltaPos };
   }
 
   /**
@@ -70,10 +76,12 @@ class App extends React.Component {
    */
   jump = () => {
     const { top } = this.state;
-    // update
-    const newPos = top - 100; // random number
+    const { jumpDistance } = CONF;
 
-    this.setState({ top: newPos });
+    const newPos = top + jumpDistance;
+
+    // this.setState({top: newPos >= minTop ? newPos : minTop})
+    this.setState({top: newPos, deltaTop: jumpDistance});
   }
 
   /**

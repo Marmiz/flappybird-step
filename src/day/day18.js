@@ -3,10 +3,10 @@ import "../App.css";
 import CONF from "../conf.js";
 
 /**
- * Event Handler
+ * Pipes
  *
- * on space call jump()
- *
+ * initialize a new state value called `pipes` as an empty array
+ *  wip
  */
 
 const Bird = ({ top }) => {
@@ -21,6 +21,7 @@ class App extends React.Component {
     this.state = {
       top: 30,
       deltaTop: 0,
+      pipes: [],
     };
   }
 
@@ -66,12 +67,17 @@ class App extends React.Component {
     return { newPos: newPos <= maxBottom ? newPos : maxBottom, newDeltaPos };
   }
 
-
   /**
    * Compute Jumping
    */
   jump = () => {
-    return false;
+    const { top } = this.state;
+    const { jumpDistance } = CONF;
+
+    const newPos = top + jumpDistance;
+
+    // this.setState({top: newPos >= minTop ? newPos : minTop})
+    this.setState({top: newPos, deltaTop: jumpDistance});
   }
 
   /**
